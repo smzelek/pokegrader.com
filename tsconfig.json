@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "DOM",
+            "DOM.Iterable",
+            "esnext"
+        ],
+        "removeComments": true,
+        "target": "ES6",
+        "baseUrl": "./",
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "alwaysStrict": true,
+        "allowUnreachableCode": false,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "noImplicitReturns": true,
+        "noUncheckedIndexedAccess": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "jsx": "preserve",
+        "jsxFactory": "h",
+        "jsxFragmentFactory": "Fragment",
+        "paths": {
+            "src": [
+                "./src"
+            ],
+        },
+    },
+    "include": [
+        "./src/"
+    ],
+    "exclude": [
+        "./node_modules/"
+    ]
+}
