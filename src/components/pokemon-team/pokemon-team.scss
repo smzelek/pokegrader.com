@@ -1,0 +1,74 @@
+.pokemon-team {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 30px;
+    max-width: 100%;
+
+    h2 {
+        margin-bottom: 10px;
+    }
+}
+
+.pokemon-team-selection {
+    display: inline-flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px 10px;
+    background: #b8ccee;
+    border: 1px solid #7287cc;
+    border-radius: 5px;
+    width: 100%;
+
+    .pokemon {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        width: 115px;
+        margin: 0 5px;
+    }
+
+    .pokemon-info {
+        background: #a4b7dc;
+        border: 1px solid #7287cc;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 10px;
+        width: 100%;
+        min-height: 105px;
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .pokemon-info img {
+        height: 60px;
+        width: 60px;
+        border-radius: 5px;
+        display: block;
+        align-self: center;
+        transform: scale(1.2);
+    }
+
+    .pokemon-info .types {
+        display: flex;
+        justify-content: center;
+        font-size: smaller;
+        align-items: center;
+
+        > .type-block {
+            border: 1px solid #646464;
+            margin-right: 5px;
+            padding: 4px;
+            border-radius: 5px;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+}

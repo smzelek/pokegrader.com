@@ -1,0 +1,206 @@
+.pokemon-team-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 30px;
+    width: 100%;
+
+    h2 {
+        margin-bottom: 10px;
+    }
+
+    .report-card {
+        display: inline-flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 20px;
+        background: #b8ccee;
+        border: 1px solid #7287cc;
+        border-radius: 5px;
+        max-width: 100%;
+        position: relative;
+    }
+
+    .type-list {
+        padding-left: 5px;
+
+        li {
+            margin-bottom: 5px;
+        }
+    }
+
+    .term {
+        font-weight: bold;
+    }
+
+    .grade-card {
+        display: flex;
+        align-items: flex-start;
+        margin-top: 10px;
+        width: 100%;
+        border: 1px solid black;
+        border-radius: 5px;
+        padding: 5px 10px 5px 5px;
+        background: #edf3ff;
+        font-family: "Quicksand";
+        font-size: 16px;
+
+        .title {
+            font-size: 15px;
+        }
+
+        .type-block {
+            padding: 4px;
+            border: 1px solid #646464;
+            border-radius: 5px;
+            margin-right: 5px;
+        }
+
+        .title {
+            display: inline-block;
+        }
+
+        li {
+            font-style: italic;
+            font-size: 15px;
+        }
+
+        .grade-rubric p {
+            line-height: 24px;
+        }
+
+        .grade {
+            border-radius: 5px;
+            width: 100px;
+            height: 100px;
+            margin-right: 5px;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+
+            &.best {
+                color: #32df32;
+            }
+
+            &.good {
+                color: #7dd26c;
+            }
+
+            &.decent {
+                color: #9fc893;
+            }
+
+            &.okay {
+                color: #feffd0;
+            }
+
+            &.poor {
+                color: #ff7878;
+            }
+
+            .number {
+                font-size: 40px;
+            }
+
+            .type {
+                font-size: 20px;
+                color: white;
+            }
+        }
+    }
+
+    .improvements {
+        display: grid;
+        width: 100%;
+        grid-template-columns: repeat(6, 1fr);
+        grid-column-gap: 10px;
+    }
+
+    .type-grade {
+        display: flex;
+        flex-direction: column;
+
+        .effects {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 14px;
+            margin-top: 3px;
+            margin-bottom: 7px;
+
+            .minor {
+                color: #ffe995;
+            }
+
+            .major {
+                color: #ff9c9c;
+            }
+        }
+    }
+
+    .type-card {
+        border: 1px solid black;
+        border-radius: 5px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+
+        &.minor {
+            outline: 3px solid #ffe995;
+        }
+
+        &.major {
+            outline: 3px solid #ff9c9c;
+        }
+
+        .type-block {
+            width: 100%;
+            padding: 2px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .type-header {
+            border-bottom: 1px solid black;
+            display: flex;
+        }
+
+        img {
+            height: 25px;
+            width: 25px;
+        }
+
+        .actors {
+            display: grid;
+            grid-template-rows: repeat(2, 50px);
+            flex-grow: 1;
+        }
+
+        .benefactors {
+            background: #daefd3;
+            display: flex;
+            padding: 2px 5px 5px;
+            min-width: 0;
+            align-items: flex-end;
+        }
+
+        .detractors {
+            background: #ffeef0;
+            display: flex;
+            padding: 2px 5px 5px;
+            min-width: 0;
+            align-items: flex-end;
+        }
+
+        .pokemon {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            align-items: center;
+        }
+    }
+}

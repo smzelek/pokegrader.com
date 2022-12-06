@@ -1,0 +1,213 @@
+.pokemon-team-chart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 30px;
+    width: 100%;
+
+    h2 {
+        margin-bottom: 10px;
+    }
+
+    .team-card {
+        display: inline-flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 20px;
+        background: #b8ccee;
+        border: 1px solid #7287cc;
+        border-radius: 5px;
+        max-width: 100%;
+        position: relative;
+        overflow-x: auto;
+    }
+
+    .row {
+        display: contents;
+    }
+
+    .header-cell {
+        text-transform: uppercase;
+        font-family: monospace;
+        font-weight: bold;
+        color: white;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        white-space: nowrap;
+        min-width: 100px;
+        background: #e6eeff;
+        padding: 0 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 35px;
+    }
+
+    .cell {
+        padding: 0 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 35px;
+        height: 35px;
+    }
+
+    .type-row {
+        display: grid;
+        grid-template-columns: repeat(19, max-content);
+
+        > *:first-child {
+            width: 101px;
+        }
+
+        .cell {
+            border-top: 1px solid black;
+
+            &:nth-child(2) {
+                border-top-left-radius: 5px;
+                border-left: 1px solid black;
+            }
+
+            &:last-child {
+                border-right: 1px solid black;
+                border-top-right-radius: 5px;
+                width: 36px;
+            }
+        }
+    }
+
+    .rating-row {
+        display: grid;
+        grid-template-columns: repeat(19, max-content);
+        border-top: 1px solid black;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+
+        .header-cell {
+            background: #9db4d9;
+
+            &.vulnerable {
+                background: #f9d3d8;
+            }
+        }
+
+        &:nth-child(2) {
+            border-top-left-radius: 5px;
+            overflow: hidden;
+        }
+    }
+
+    .pokemon-row {
+        display: grid;
+        grid-template-columns: repeat(19, max-content);
+        border-top: 1px solid black;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+
+        .header-cell {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &.expandable {
+                cursor: pointer;
+
+                &:hover {
+                    filter: brightness(0.95);
+                }
+            }
+
+            .sprite {
+                position: relative;
+                align-self: center;
+
+                img {
+                    height: 30px;
+                    display: block;
+                }
+            }
+
+            .expand-caret {
+                position: absolute;
+                left: 100%;
+                top: 0;
+                width: 12px;
+
+                &.expanded {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+
+        &:last-child {
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            border-left: 1px solid black;
+            border-bottom: 1px solid black;
+            overflow: hidden;
+        }
+
+        .details {
+            display: contents;
+            cursor: pointer;
+
+            &:hover {
+                .header-cell {
+                    filter: brightness(0.95);
+                }
+                .cell {
+                    filter: contrast(0.8) saturate(0.8) brightness(0.95);
+                }
+            }
+
+            .header-cell {
+                height: 20px;
+            }
+
+            .cell {
+                height: 20px;
+                filter: contrast(0.8) saturate(0.8);
+                font-size: small;
+
+                .fraction {
+                    font-size: smaller;
+                }
+            }
+        }
+    }
+}
+
+.rating {
+    font-weight: bold;
+    font-family: sans-serif;
+    background: white;
+
+    &.best {
+        background: #1e771e;
+        color: #feffd0;
+    }
+    &.good {
+        background: #64a158;
+        color: #feffd0;
+    }
+    &.decent {
+        background: #9fc893;
+        color: #feffc2;
+    }
+    &.unimportant {
+        background: white;
+    }
+    &.poor {
+        background: #f9d3d8;
+        color: #0d2f6e;
+    }
+    &.bad {
+        background: #ff7878;
+        color: #0d2f6e;
+    }
+    &.na {
+        background: #555555;
+        color: white;
+    }
+}

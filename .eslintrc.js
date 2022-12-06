@@ -26,7 +26,7 @@ module.exports = {
       rules: {
         "jest/no-deprecated-functions": "off",
         "no-unused-vars": "off",
-        "no-useless-constructor": "off"
+        "@typescript-eslint/no-unused-vars": ["error"]
       }
     }
   ]
