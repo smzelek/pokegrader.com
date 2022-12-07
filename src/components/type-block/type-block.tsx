@@ -1,6 +1,6 @@
+import './type-block.scss'
 import { h, JSX } from "preact";
-import { toShortTypes } from "src/utils"
-import { Types } from "src/utils/pokegrader";
+import { toShortTypes, Types } from "src/utils"
 
 const TypeBlock = ({
     type,

@@ -28,43 +28,6 @@
     }
   }
 
-  &.error {
-    border: 1px solid #e21827;
-
-    .select-dropdown {
-      border-left: 1px solid #e21827;
-      border-right: 1px solid #e21827;
-      border-bottom: 1px solid #e21827;
-    }
-
-    &:focus-within {
-      border: 1px solid #e21827;
-      outline: 1px solid #e21827;
-    }
-  }
-
-  &.disabled {
-    background-color: #e9edf3;
-    .select-box {
-      cursor: not-allowed;
-      border: 1px solid #dee3ea;
-
-      &--caret,
-      &--selected-text {
-        color: #98a2ad;
-      }
-    }
-    .select-option {
-      background-color: #e9edf3;
-      cursor: not-allowed;
-    }
-
-    &:focus-within {
-      border: 1px solid #ced6e0;
-      outline: 1px solid transparent;
-    }
-  }
-
   .select-box {
     height: 100%;
     width: 100%;
@@ -73,8 +36,8 @@
     align-items: center;
     position: relative;
     cursor: pointer;
-    padding: 0 10px;
     box-sizing: border-box;
+    padding: 0 5px 0 10px;
 
     &--selected-text {
       overflow: hidden;
@@ -133,21 +96,34 @@
   .select-dropdown {
     z-index: 1;
     position: absolute;
-    top: calc(100% + 8px);
+    top: calc(100% + 5px);
     left: -1px;
     min-width: calc(100% + 2px);
     max-width: calc(200% + 2px);
     background-color: white;
-    border: 1px solid #c3c3c3;
+    border: 1px solid #646464;
     box-sizing: border-box;
     border-radius: 6px;
-    border-top: 1px solid lightgray;
     overflow: hidden;
 
     .scroll-wrapper {
       max-height: 200px;
       overflow: hidden;
       overflow-y: auto;
+    }
+
+    .select-search {
+      padding: 13px;
+
+      input {
+        width: 100%;
+        height: 35px;
+        border-radius: 5px;
+        border: 1px solid black;
+        font-size: 14px;
+        padding: 0 10px;
+        font-family: "Quicksand";
+      }
     }
   }
 
@@ -159,10 +135,10 @@
     align-items: center;
     cursor: pointer;
 
-    input[type="checkbox"] {
-      margin-right: 10px;
-      width: 10px;
-      pointer-events: none;
+    &.clear {
+      // height: 15px;
+      color: #1b6dff;
+      text-decoration: underline;
     }
 
     span {

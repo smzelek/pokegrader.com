@@ -22,6 +22,10 @@
         max-width: 100%;
         position: relative;
         overflow-x: auto;
+
+        .bubble-font {
+            color: inherit;
+        }
     }
 
     .row {
@@ -51,6 +55,11 @@
         align-items: center;
         width: 35px;
         height: 35px;
+        font-size: 18px;
+
+        .fraction {
+            font-size: 14px;
+        }
     }
 
     .type-row {
@@ -63,6 +72,7 @@
 
         .cell {
             border-top: 1px solid black;
+            font-size: 13px;
 
             &:nth-child(2) {
                 border-top-left-radius: 5px;
@@ -152,6 +162,10 @@
             display: contents;
             cursor: pointer;
 
+            .cell {
+                font-size: 14px;
+            }
+
             &:hover {
                 .header-cell {
                     filter: brightness(0.95);
@@ -161,18 +175,8 @@
                 }
             }
 
-            .header-cell {
-                height: 20px;
-            }
-
             .cell {
-                height: 20px;
                 filter: contrast(0.8) saturate(0.8);
-                font-size: small;
-
-                .fraction {
-                    font-size: smaller;
-                }
             }
         }
     }
@@ -197,14 +201,15 @@
     }
     &.unimportant {
         background: white;
+        color: white;
     }
     &.poor {
         background: #f9d3d8;
-        color: #0d2f6e;
+        color: white;
     }
     &.bad {
         background: #ff7878;
-        color: #0d2f6e;
+        color: white;
     }
     &.na {
         background: #555555;

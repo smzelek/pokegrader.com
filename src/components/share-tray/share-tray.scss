@@ -1,0 +1,40 @@
+.share-tray {
+    a.icon {
+        display: flex;
+        align-items: center;
+        border-radius: 5px;
+        height: 40px;
+        border: 1px solid #abb7cb;
+        color: white;
+        text-decoration: none;
+        padding-right: 8px;
+
+        img {
+            display: block;
+            width: 30px;
+            height: 30px;
+            margin: 0 auto;
+            padding: 5px 0;
+            box-sizing: border-box;
+            object-fit: contain;
+        }
+
+        span {
+            font-size: 16px;
+            transform: scale(1.1);
+        }
+
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 0px 3px #a2c0e6;
+        }
+    }
+
+    a.icon.twitter {
+        background-color: #1a91da;
+        &:hover,
+        &:focus {
+            background-color: #1da1f2;
+        }
+    }
+}

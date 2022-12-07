@@ -1,14 +1,17 @@
+import './pokemon-report-card.scss';
 import { h, JSX } from 'preact';
-import { JSXChildren, scaleDecimal } from 'src/utils';
-import { Offenses, POKEMON_TYPES, TeamEvaluation, Types } from 'src/utils/pokegrader';
+import { JSXChildren, scaleDecimal, Offenses, POKEMON_TYPES, TeamEvaluation, Types, TypedPokemon } from 'src/utils';
 import TypeBlock from '../type-block/type-block';
 import Number from '../number/number';
-import './pokemon-team-info.scss';
+import { Bubble } from '../text/bubble';
+import ShareTray from '../share-tray/share-tray';
 
-const PokemonTeamInfo = ({
+const PokemonReportCard = ({
+    pokemonTeam,
     teamEvaluation,
 }: {
     teamEvaluation: TeamEvaluation;
+    pokemonTeam: (TypedPokemon | undefined)[];
 }): JSX.Element => {
     const offenseGrades = Object.values(teamEvaluation.offenses).map((offenses) => {
         const bestOffense = offenses[0]?.offense || 0;
@@ -47,7 +50,7 @@ const PokemonTeamInfo = ({
 
     return (
         <div className="pokemon-team-info">
-            <h2 className="bubble-font">report card</h2>
+            <h2 className="bubble-font">get your grade!</h2>
             <div className="report-card">
                 <div className="improvements">
                     {POKEMON_TYPES.map(t =>
@@ -94,11 +97,8 @@ const PokemonTeamInfo = ({
                         Full credit is given for <Bubble>2X</Bubble>+ <Bold>Offense</Bold>, half credit for <Bubble>1X</Bubble> <Bold>Offense</Bold>.
                     </p>
                 </GradeCard>
-                {/* TODO */}
-                {/* <div>
-                    share on social media buttons
-                </div> */}
             </div>
+            <ShareTray pokemonTeam={pokemonTeam} />
         </div >
     )
 };
@@ -163,7 +163,7 @@ const TypeGrade = ({
         const isBestOrEqualTo = pokemon.offense === bestOffense;
         const isGreat = pokemon.offense >= 4;
         const compareAgainstVulnerable = i <= teamEvaluation.vulnerable[type].length - 1;
-        return !isVuln && (isBestOrEqualTo && isGreat) || compareAgainstVulnerable;
+        return !isVuln && (isBestOrEqualTo || isGreat) || compareAgainstVulnerable;
     });
 
     const effect: 'major' | 'minor' | '' = (() => {
@@ -183,16 +183,16 @@ const TypeGrade = ({
             </div>
             <div className="actors">
                 <div className="benefactors">
-                    {benefactors.map(v =>
-                        <div key={v.pokemon.id} className="pokemon">
+                    {benefactors.map((v, i) =>
+                        <div key={i} className="pokemon">
                             <img src={v.pokemon.sprites.other['official-artwork'].front_default} alt={v.pokemon.name} title={v.pokemon.name} />
                             <Bubble><Number number={v.offense} /></Bubble>
                         </div>
                     )}
                 </div>
                 <div className="detractors">
-                    {teamEvaluation.vulnerable[type].map(v =>
-                        <div key={v.pokemon.id} className="pokemon">
+                    {teamEvaluation.vulnerable[type].map((v, i) =>
+                        <div key={i} className="pokemon">
                             <img src={v.pokemon.sprites.other['official-artwork'].front_default} alt={v.pokemon.name} title={v.pokemon.name} />
                             <Bubble><Number number={v.offense} /></Bubble>
                         </div>
@@ -213,6 +213,5 @@ const Demerit = ({ grade, kind }: { grade: number, kind: string }) => {
 };
 
 const Bold = ({ children }: { children: JSXChildren }) => <span className="term">{children}</span>;
-const Bubble = ({ children }: { children: JSXChildren }) => <span className="bubble-font">{children}</span>;
 
-export default PokemonTeamInfo;
+export default PokemonReportCard;

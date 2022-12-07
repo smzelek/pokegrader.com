@@ -4,7 +4,7 @@
     align-items: center;
     flex-direction: column;
     margin-top: 30px;
-    width: 100%;
+    max-width: 100%;
 
     h2 {
         margin-bottom: 10px;
@@ -20,7 +20,14 @@
         border: 1px solid #7287cc;
         border-radius: 5px;
         max-width: 100%;
-        position: relative;
+    }
+
+    .share-tray {
+        padding-top: 10px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        width: 100%;
     }
 
     .type-list {

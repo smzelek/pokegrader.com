@@ -1,5 +1,9 @@
-import { toSearchable, toTitleCase } from "src/utils";
-import { getPokemonTypeMatchups, TypeMatchups, Types } from "src/utils/pokegrader";
+import { RELEVANT_ABILITIES, toSearchable, toTitleCase, Types } from "src/utils";
+
+export interface PokemonWithAbility {
+    pokemon: Pokemon | undefined;
+    ability: string | undefined;
+}
 
 export interface Resource {
     name: string;
@@ -52,9 +56,12 @@ export const rename = (n: string): string => {
         }
         return s;
     }).map(toTitleCase);
-    return info.length ? `${name} (${info.join(' ')})` : name!;
+    return info.length >= 1 ? `${name} (${info.join(' ')})` : name!;
 };
 
+export const renameAbility = (n: string): string => {
+    return n.split('-').map(toTitleCase).join(' ');
+};
 interface GetAllPokemon {
     count: number;
     next: string;
@@ -74,7 +81,17 @@ export const getAllPokemon = async (): Promise<SearchablePokemon[]> => {
     });
 }
 
-export interface Pokemon {
+export type Ability = {
+    index: number;
+    nameId: string;
+    name: string;
+};
+export type Pokemon = Omit<PokemonResponse, 'abilities'> & {
+    abilities: Ability[];
+    chosenAbility: Ability | undefined;
+};
+
+export interface PokemonResponse {
     abilities: {
         ability: Resource;
         is_hidden: boolean;
@@ -132,18 +149,29 @@ export interface Pokemon {
             url: string;
         };
     }[];
-    typeMatchup: TypeMatchups;
     weight: number;
 }
-export const getPokemon = async (id: string | undefined): Promise<Pokemon | null> => {
-    if (!id) {
-        return null;
+export type PokemonSelection = {
+    pokemon: SearchablePokemon | undefined,
+    ability: number | undefined,
+};
+export const getPokemon = async (selection: PokemonSelection | undefined): Promise<Pokemon | undefined> => {
+    if (!selection || !selection.pokemon) {
+        return undefined;
     }
-    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-    const data = await res.json() as Pokemon;
-    const typeMatchup = (() => {
-        const types = data.types.map(t => t.type.name);
-        return getPokemonTypeMatchups(types);
-    })();
-    return { ...data, name: rename(data.name), typeMatchup };
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${selection.pokemon.nameId}`);
+    const data = await res.json() as PokemonResponse;
+    const abilities: Ability[] = data.abilities
+        .filter(a => RELEVANT_ABILITIES.includes(a.ability.name))
+        .map((a, i) => ({
+            index: i,
+            nameId: a.ability.name,
+            name: renameAbility(a.ability.name)
+        }));
+    return {
+        ...data,
+        name: rename(data.name),
+        abilities,
+        chosenAbility: selection.ability !== undefined ? abilities[selection.ability] : undefined
+    };
 }
