@@ -10,6 +10,13 @@ export type Offenses = {
     pokemon: Pokemon;
     offense: number;
 }[];
+
+// TODO: rewrite as Transposition of TEAM[].typeMatchups{} to 
+// then calculate vulnerabilities based on def < 1 as an addtl field "isVulnerable" 
+// TYPES{}.pokemon ={name, offense, isVulnerable}[]
+// TYPES{}.nthBest = ...Mathmax...n-1...
+
+// Based strictly on a pokemon's defense, not effective offense ratio.
 const getTeamVulnerabilities = (team: (TypedPokemon | undefined)[]): TeamEvaluation['vulnerable'] => {
     const defaultVuln: TeamEvaluation['vulnerable'] = POKEMON_TYPES.reduce((o, t) => {
         o[t] = [];
@@ -33,12 +40,13 @@ const getTeamVulnerabilities = (team: (TypedPokemon | undefined)[]): TeamEvaluat
         return totalVuln;
     }, defaultVuln);
 
-    return Object.entries(vulnChart).reduce((o, [type, vuln]: [Types, TeamEvaluation['vulnerable'][Types]]) => {
+    return Object.entries(vulnChart).reduce((o, [type, vuln]: [Types, Offenses]) => {
         o[type] = [...vuln].sort((a, b) => a.offense - b.offense);
         return o;
     }, {} as TeamEvaluation['vulnerable']);
 }
 
+// Team's effective offense ratios.
 export const getTeamOffenses = (team: (TypedPokemon | undefined)[]): TeamEvaluation['offenses'] => {
     const defaultOffenses: TeamEvaluation['offenses'] = POKEMON_TYPES.reduce((o, t) => {
         o[t] = [];
@@ -72,11 +80,9 @@ export const getTeamOffenses = (team: (TypedPokemon | undefined)[]): TeamEvaluat
 }
 
 export interface TeamEvaluation {
-    vulnerable: Record<Types, {
-        offense: number;
-        pokemon: Pokemon;
-    }[]>;
+    vulnerable: Record<Types, Offenses>;
     offenses: Record<Types, Offenses>;
+
 }
 export const getTeamEvaluation = (team: (TypedPokemon | undefined)[]): TeamEvaluation => {
     return {

@@ -13,6 +13,7 @@ const PokemonTeamChart = ({
     teamEvaluation: TeamEvaluation;
 }): JSX.Element => {
     const anyPokemon = pokemonTeam.some(p => !!p);
+    console.log(teamEvaluation)
 
     return (
         <div className="pokemon-team-chart">
@@ -41,8 +42,9 @@ const PokemonTeamChart = ({
                         safety
                     </div>
                     {Object.entries(teamEvaluation.offenses).map(([type, offenses]: [Types, Offenses], i) => {
-                        const n = teamEvaluation.vulnerable[type].length;
+                        const n = Math.max(teamEvaluation.vulnerable[type].length - 1, 0);
                         const nthBestOffense = offenses[n]?.offense;
+                        console.log(type, n, nthBestOffense)
                         return (
                             <div key={i} className={`cell rating ${relativeStrengthRank(nthBestOffense)}`}>
                                 <Bubble><Number number={nthBestOffense} /></Bubble>

@@ -48,15 +48,15 @@ const PokemonReportCard = ({
             return acc;
         }, {} as Record<Types, { offense: number, safety: number }>);
 
+    const anyPokemon = pokemonTeam.some(p => !!p)
+
     return (
-        <div className="pokemon-team-info">
-            <h2 className="bubble-font">get your grade!</h2>
+        <div className="pokemon-report-card">
+            <div className="title">
+                <h2 className="bubble-font">get your grade!</h2>
+                <ShareTray pokemonTeam={pokemonTeam} />
+            </div>
             <div className="report-card">
-                <div className="improvements">
-                    {POKEMON_TYPES.map(t =>
-                        <TypeGrade key={t} type={t} teamEvaluation={teamEvaluation} grades={typeGrades[t]} />
-                    )}
-                </div>
                 <GradeCard
                     type='offense'
                     grade={offenseGrade}>
@@ -97,8 +97,12 @@ const PokemonReportCard = ({
                         Full credit is given for <Bubble>2X</Bubble>+ <Bold>Offense</Bold>, half credit for <Bubble>1X</Bubble> <Bold>Offense</Bold>.
                     </p>
                 </GradeCard>
+                {anyPokemon && <div className="improvements">
+                    {POKEMON_TYPES.map(t =>
+                        <TypeGrade key={t} type={t} teamEvaluation={teamEvaluation} grades={typeGrades[t]} />
+                    )}
+                </div>}
             </div>
-            <ShareTray pokemonTeam={pokemonTeam} />
         </div >
     )
 };

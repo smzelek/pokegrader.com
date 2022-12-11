@@ -1,13 +1,22 @@
-.pokemon-team-info {
+.pokemon-report-card {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: column;
     margin-top: 30px;
     max-width: 100%;
 
-    h2 {
+    .report-card-title {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        align-items: flex-end;
         margin-bottom: 10px;
+        position: relative;
+        
+        h2 {
+            white-space: nowrap;
+        }
     }
 
     .report-card {
@@ -28,6 +37,9 @@
         align-items: flex-end;
         justify-content: flex-end;
         width: 100%;
+        position: absolute;
+        right: 0;
+        bottom: 0;
     }
 
     .type-list {
