@@ -162,7 +162,7 @@ export const toShortTypes = (t: Types): string => {
 
 export const toTitleCase = (s: string): string => [s[0]?.toUpperCase(), ...s.slice(1)].join('');
 
-export const toSearchable = (s: string): string => s.replaceAll(/[\W]+/g, '').toLowerCase();
+export const toSearchable = (s: string): string => s.replace(/[\W]+/g, '').toLowerCase();
 
 export const useAsync = <T, K extends T>(getMethod: () => Promise<T>, deps: any[] = [], { initialValue }: { initialValue: K }) => {
     const [value, setValue] = useState<T>(initialValue);
