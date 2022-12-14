@@ -5,7 +5,8 @@ export const currentUrl = (pokemonTeam: (TypedPokemon | undefined)[]) => {
         ? new URL(document.referrer).href
         : document.location.href
 
-    return `${hostUrl}?${toQueryParams(pokemonTeam)}`;
+    const separator = hostUrl.endsWith('/') ? '' : '/';
+    return `${hostUrl}${separator}?${toQueryParams(pokemonTeam)}`;
 };
 
 export type Params = ({
