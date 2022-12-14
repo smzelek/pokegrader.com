@@ -4,7 +4,6 @@
 const config = {
     use: {
         baseURL: 'http://localhost:8080',
-        headless: false,
     },
 };
 
