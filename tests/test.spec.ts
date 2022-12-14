@@ -14,8 +14,16 @@ test.describe.configure({ mode: 'serial' });
 
 let page: Page;
 
+test.afterEach(async ({ }, testInfo) => {
+  if (testInfo.status !== testInfo.expectedStatus) {
+    const screenshotPath = `./screenshots/${testInfo.title}.png`;
+    testInfo.attachments.push({ name: 'screenshot', path: screenshotPath, contentType: 'image/png' });
+    await page.screenshot({ path: screenshotPath, timeout: 5000 });
+  }
+});
+
 test.beforeAll(async ({ browser }) => {
-  page = await browser.newPage();
+  page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
   await page.route('**/*', route => {
     // Silently abort unmocked API requests
     if (['fetch'].includes(route.request().resourceType())) {
@@ -213,7 +221,6 @@ test.describe("external urls append proper query params", () => {
     test("partial team url", async () => {
       const { twitter } = helper(page);
       const initialUrl = 'http://localhost:8080/?p=0.423.0&p=1.184.0&p=2.229&p=4.82&p=5.838.0'
-      const encodedUrl = encodeURIComponent(initialUrl);
       await page.goto(initialUrl);
 
       callUrl = undefined;
@@ -222,13 +229,13 @@ test.describe("external urls append proper query params", () => {
       });
       await twitter().click();
 
+      const encodedUrl = encodeURIComponent(initialUrl);
       expect(callUrl).toBe(`https://twitter.com/intent/tweet?text=check+out+my+pokemon+teams+score%21%21%0A${encodedUrl}`);
     });
 
     test("full team url", async () => {
       const { twitter } = helper(page);
       const initialUrl = 'http://localhost:8080/?p=0.423.0&p=1.184.0&p=2.229.0&p=3.886&p=4.82&p=5.838.0'
-      const encodedUrl = encodeURIComponent(initialUrl);
       await page.goto(initialUrl);
 
       callUrl = undefined;
@@ -237,6 +244,7 @@ test.describe("external urls append proper query params", () => {
       });
       await twitter().click();
 
+      const encodedUrl = encodeURIComponent(initialUrl);
       expect(callUrl).toBe(`https://twitter.com/intent/tweet?text=check+out+my+pokemon+teams+score%21%21%0A${encodedUrl}`);
     });
   });
@@ -245,7 +253,6 @@ test.describe("external urls append proper query params", () => {
     test("partial team url", async () => {
       const { report } = helper(page);
       const initialUrl = 'http://localhost:8080/?p=0.423.0&p=1.184.0&p=2.229&p=4.82&p=5.838.0'
-      const encodedUrl = encodeURIComponent(initialUrl);
       await page.goto(initialUrl);
 
       callUrl = undefined;
@@ -254,13 +261,13 @@ test.describe("external urls append proper query params", () => {
       });
       await report().click();
 
+      const encodedUrl = encodeURIComponent(initialUrl);
       expect(callUrl).toBe(`https://docs.google.com/forms/d/e/1FAIpQLScrbjDLotIHBnqD06RYZfdpLA7U_d1H4TJ0g4L5qro8g8GaEw/viewform?usp=pp_url&entry.368646608=${encodedUrl}`);
     });
 
     test("full team url", async () => {
       const { report } = helper(page);
       const initialUrl = 'http://localhost:8080/?p=0.423.0&p=1.184.0&p=2.229.0&p=3.886&p=4.82&p=5.838.0'
-      const encodedUrl = encodeURIComponent(initialUrl);
       await page.goto(initialUrl);
 
       callUrl = undefined;
@@ -269,6 +276,7 @@ test.describe("external urls append proper query params", () => {
       });
       await report().click();
 
+      const encodedUrl = encodeURIComponent(initialUrl);
       expect(callUrl).toBe(`https://docs.google.com/forms/d/e/1FAIpQLScrbjDLotIHBnqD06RYZfdpLA7U_d1H4TJ0g4L5qro8g8GaEw/viewform?usp=pp_url&entry.368646608=${encodedUrl}`);
     });
   });
