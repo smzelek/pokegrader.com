@@ -54,7 +54,7 @@ export const scaleDecimal = (num: number, scale: number): number => {
     return Math.floor(num * scale);
 };
 
-export type Rank = 'best' | 'good' | 'decent' | 'unimportant' | 'poor' | 'bad' | 'na' | '';
+export type Rank = 'best' | 'great' | 'good' | 'decent' | 'unimportant' | 'poor' | 'bad' | 'na' | '';
 
 export const vulnerabilityRank = (decimal: number | undefined): Rank => {
     if (decimal === undefined) {
@@ -109,7 +109,7 @@ export const relativeStrengthRank = (decimal: number | undefined): Rank => {
         return "best"
     }
     if (decimal >= 8) {
-        return "best"
+        return "great"
     }
     if (decimal >= 4) {
         return "good"
@@ -169,6 +169,7 @@ export const useAsync = <T, K extends T>(getMethod: () => Promise<T>, deps: any[
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const callback = useCallback(getMethod, deps);
 
     useEffect(() => {

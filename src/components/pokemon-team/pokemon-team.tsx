@@ -70,57 +70,75 @@ export const PokemonTeam = ({
             return undefined;
         }
         const types = p.types.map(t => t.type.name);
-        console.log(p, types, ability)
         const typeMatchup = getPokemonTypeMatchups(types, ability !== undefined ? p.abilities[ability]?.nameId : undefined);
-        return { ...p, typeMatchup }
+        return { ...p, typeMatchup, chosenAbility: ability }
     };
 
+    const pokemonAbility1 = useMemo(() => {
+        return pokemonSelection[0]?.ability;
+    }, [pokemonSelection]);
+    const pokemonAbility2 = useMemo(() => {
+        return pokemonSelection[1]?.ability;
+    }, [pokemonSelection]);
+    const pokemonAbility3 = useMemo(() => {
+        return pokemonSelection[2]?.ability;
+    }, [pokemonSelection]);
+    const pokemonAbility4 = useMemo(() => {
+        return pokemonSelection[3]?.ability;
+    }, [pokemonSelection]);
+    const pokemonAbility5 = useMemo(() => {
+        return pokemonSelection[4]?.ability;
+    }, [pokemonSelection]);
+    const pokemonAbility6 = useMemo(() => {
+        return pokemonSelection[5]?.ability;
+    }, [pokemonSelection]);
+
     const typedPokemon1 = useMemo(() => {
-        return toTyped(pokemon1, pokemonSelection[0]?.ability)
-    }, [pokemon1, pokemonSelection[0]?.ability]);
+        return toTyped(pokemon1, pokemonAbility1)
+    }, [pokemon1, pokemonAbility1]);
     const typedPokemon2 = useMemo(() => {
-        return toTyped(pokemon2, pokemonSelection[1]?.ability)
-    }, [pokemon2, pokemonSelection[1]?.ability]);
+        return toTyped(pokemon2, pokemonAbility2)
+    }, [pokemon2, pokemonAbility2]);
     const typedPokemon3 = useMemo(() => {
-        return toTyped(pokemon3, pokemonSelection[2]?.ability)
-    }, [pokemon3, pokemonSelection[2]?.ability]);
+        return toTyped(pokemon3, pokemonAbility3)
+    }, [pokemon3, pokemonAbility3]);
     const typedPokemon4 = useMemo(() => {
-        return toTyped(pokemon4, pokemonSelection[3]?.ability)
-    }, [pokemon4, pokemonSelection[3]?.ability]);
+        return toTyped(pokemon4, pokemonAbility4)
+    }, [pokemon4, pokemonAbility4]);
     const typedPokemon5 = useMemo(() => {
-        return toTyped(pokemon5, pokemonSelection[4]?.ability)
-    }, [pokemon5, pokemonSelection[4]?.ability]);
+        return toTyped(pokemon5, pokemonAbility5)
+    }, [pokemon5, pokemonAbility5]);
     const typedPokemon6 = useMemo(() => {
-        return toTyped(pokemon6, pokemonSelection[5]?.ability)
-    }, [pokemon6, pokemonSelection[5]?.ability]);
+        return toTyped(pokemon6, pokemonAbility6)
+    }, [pokemon6, pokemonAbility6]);
 
     const pokemonTeam = useMemo(() => {
-        return [typedPokemon1, typedPokemon2, typedPokemon3, typedPokemon4, typedPokemon5, typedPokemon6].map((p, i) => {
+        return [typedPokemon1, typedPokemon2, typedPokemon3, typedPokemon4, typedPokemon5, typedPokemon6].map((p) => {
             if (p === undefined) {
                 return p;
             }
-            const pokemonAbility = pokemonSelection[i]!.ability;
             return {
                 ...p,
-                chosenAbility: pokemonAbility !== undefined ? p.abilities[pokemonAbility] : undefined
+                chosenAbility: p.chosenAbility !== undefined ? p.abilities[p.chosenAbility] : undefined
             };
         })
-    }, [typedPokemon1, typedPokemon2, typedPokemon3, typedPokemon4, typedPokemon5, typedPokemon6]);
+    }, [typedPokemon1, typedPokemon2, typedPokemon3, typedPokemon4, typedPokemon5, typedPokemon6,]);
 
     useEffect(() => {
         setPokemonTeam(pokemonTeam);
-    }, [pokemonTeam]);
+    }, [pokemonTeam, setPokemonTeam]);
 
     return (
-        <div className="pokemon-team">
+        <div id="pokemon-team">
             {/* TODO: implement generation selector */}
-            <h2 className="bubble-font">choose your team</h2>
+            <h2 className="bubble-font">choose your team:</h2>
             <div className="pokemon-team-selection">
                 {pokemonTeam.map((pokemon, i) => {
                     const pokemonAbility = pokemonSelection[i]!.ability;
                     const abilityValue = pokemonAbility !== undefined ? pokemon?.abilities[pokemonAbility] : undefined
-                    return (<div key={i} className="pokemon">
+                    return (<div id={`pokemon${i + 1}`} key={i} className="pokemon">
                         <Select
+                            className='pokemon-name'
                             width='100%'
                             options={allPokemon$}
                             value={pokemonSelection[i]!.pokemon}
@@ -138,7 +156,7 @@ export const PokemonTeam = ({
                                 {pokemon?.types.map((t, i) => <TypeBlock key={i} type={t.type.name} />)}
                             </div>
                         </div>
-                        <div className="ability-selection">
+                        <div className="pokemon-ability">
                             {!!pokemon?.abilities.length && (
                                 <Select
                                     width='100%'

@@ -26,9 +26,8 @@ export const readQueryParams = (): Params => {
             return o;
         }, Array(6).fill(undefined) as Params)
 
-    // TODO
     // delete the queryParams we just bootstrapped from
-    // window.history.replaceState({ path: '/' }, '', '/');
+    window.history.replaceState({ path: '/' }, '', '/');
     return pokemon.filter(p => !!p);
 }
 

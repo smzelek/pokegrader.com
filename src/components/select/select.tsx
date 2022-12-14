@@ -56,7 +56,7 @@ const Select = <T,>({
   const filteredOptions = useMemo(() => {
     const searchable = toSearchable(search);
     return options?.filter((o, i) => toSearchable(mapToText(o, i)).includes(searchable));
-  }, [search, options]);
+  }, [search, options, mapToText]);
 
   const ref = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
@@ -70,7 +70,6 @@ const Select = <T,>({
         return;
       }
 
-      setDropdownOpen(open);
       if (!open) {
         onBlur();
         setSearch('');
@@ -83,6 +82,8 @@ const Select = <T,>({
       if (focusInput) {
         setWillFocusInput(true);
       }
+
+      setDropdownOpen(open);
     },
     [onBlur, setDropdownOpen, setWillFocusInput, shouldDisable]
   );
@@ -105,7 +106,6 @@ const Select = <T,>({
     }
 
     if (willFocusInput) {
-      console.log('focusingsearch', searchRef.current)
       searchRef.current?.focus();
       return;
     }
@@ -118,7 +118,7 @@ const Select = <T,>({
     }
 
     optionRefs.current?.[0]?.el?.focus();
-  }, [dropdownOpen, mapToKey, value]);
+  }, [dropdownOpen, willFocusInput, mapToKey, value]);
 
   const chooseOption = (option: T | undefined) => {
     if (shouldDisable) {
@@ -251,7 +251,6 @@ const Select = <T,>({
                 value={search}
                 ref={searchRef}
                 onInput={(e) => {
-                  console.log((e.target! as any).value)
                   setSearch((e.target as HTMLInputElement).value)
                 }} />
             </div>)}

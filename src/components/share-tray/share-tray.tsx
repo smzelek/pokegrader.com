@@ -20,7 +20,7 @@ const ShareTray = ({
 
     return (
         <div className="share-tray">
-            <a className="icon twitter" href={TWITTER_URL} onClick={(event) => {
+            <a id="twitter" className="icon twitter" href={TWITTER_URL} onClick={(event) => {
                 event.preventDefault();
                 window.open(makeTwitterUrl())
             }}>

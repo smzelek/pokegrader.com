@@ -51,20 +51,21 @@ const PokemonReportCard = ({
     const anyPokemon = pokemonTeam.some(p => !!p)
 
     return (
-        <div className="pokemon-report-card">
-            <div className="title">
+        <div id="pokemon-report-card">
+            <div className="report-card-title">
                 <h2 className="bubble-font">get your grade!</h2>
                 <ShareTray pokemonTeam={pokemonTeam} />
             </div>
             <div className="report-card">
                 <GradeCard
+                    id="offense-grade"
                     type='offense'
                     grade={offenseGrade}>
                     <p>
                         Your{' '}
-                        <h3 className="bubble-font title">
+                        <h4 className="bubble-font title">
                             offense
-                        </h3>
+                        </h4>
                         {' '}is your team's ability to overwhelm enemy Pokémon types.
                     </p>
                     <p>
@@ -78,20 +79,21 @@ const PokemonReportCard = ({
                     </p>
                 </GradeCard>
                 <GradeCard
+                    id="safety-grade"
                     grade={safetyGrade}
                     type='safety'>
                     <p>
                         Your{' '}
-                        <h3 className="bubble-font title">
+                        <h4 className="bubble-font title">
                             safety
-                        </h3>
-                        {' '}is the stability of your team's <Bold>Offense</Bold> against enemy Pokémon types.
+                        </h4>
+                        {' '}is the stability of your <Bold>Offense</Bold> against enemy types.
                     </p>
                     <p>
                         <Bold>3</Bold> vulnerable Pokémon means you need <Bold>3</Bold> Pokémon with <Bubble>2X</Bubble>+ <Bold>Offense</Bold>.
                     </p>
                     <p>
-                        Score is based on Nth Best <Bold>Offense</Bold> per type (N = number of vulnerable Pokémon).
+                        Score is based on Nth Best <Bold>Offense</Bold> per type (N = vulnerable Pokémon).
                     </p>
                     <p>
                         Full credit is given for <Bubble>2X</Bubble>+ <Bold>Offense</Bold>, half credit for <Bubble>1X</Bubble> <Bold>Offense</Bold>.
@@ -108,10 +110,12 @@ const PokemonReportCard = ({
 };
 
 const GradeCard = ({
+    id,
     grade,
     type,
     children
 }: {
+    id: string,
     grade: number,
     type: string,
     children: JSXChildren,
@@ -135,11 +139,11 @@ const GradeCard = ({
     const scaledGrade = scaleDecimal(grade, 100);
 
     return (
-        <div className="grade-card">
+        <div id={id} className="grade-card">
             <div className={`grade bubble-font ${gradeColorize(scaledGrade)}`}>
-                <p className="number">
+                <h3 className="number">
                     {scaledGrade}%
-                </p>
+                </h3>
                 <p className="type">
                     {type}
                 </p>
@@ -163,11 +167,12 @@ const TypeGrade = ({
 }) => {
     const benefactors = teamEvaluation.offenses[type].filter((pokemon, i) => {
         const isVuln = teamEvaluation.vulnerable[type].findIndex(v => v.pokemon.name === pokemon.pokemon.name) !== -1;
+        const isWeak = pokemon.offense < 1;
         const bestOffense = teamEvaluation.offenses[type][0]?.offense;
         const isBestOrEqualTo = pokemon.offense === bestOffense;
         const isGreat = pokemon.offense >= 4;
         const compareAgainstVulnerable = i <= teamEvaluation.vulnerable[type].length - 1;
-        return !isVuln && (isBestOrEqualTo || isGreat) || compareAgainstVulnerable;
+        return !isVuln && !isWeak && (isBestOrEqualTo || isGreat || compareAgainstVulnerable);
     });
 
     const effect: 'major' | 'minor' | '' = (() => {
@@ -180,7 +185,7 @@ const TypeGrade = ({
         return '';
     })();
 
-    return <div className="type-grade">
+    return <div className={`type-grade ${type}`}>
         <div className={`type-card ${effect}`}>
             <div className="type-header" >
                 <TypeBlock type={type} short={false} />

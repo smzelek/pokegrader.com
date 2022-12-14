@@ -1,4 +1,4 @@
-.pokemon-report-card {
+#pokemon-report-card {
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -57,7 +57,7 @@
     .grade-card {
         display: flex;
         align-items: flex-start;
-        margin-top: 10px;
+        margin-bottom: 10px;
         width: 100%;
         border: 1px solid black;
         border-radius: 5px;
@@ -143,13 +143,26 @@
         display: flex;
         flex-direction: column;
 
+        &:nth-child(n+13) {
+            .effects {
+                min-height: unset;
+            }
+        }
+
         .effects {
             display: flex;
             flex-direction: column;
             align-items: center;
             font-size: 14px;
-            margin-top: 3px;
-            margin-bottom: 7px;
+            min-height: 15px;
+
+            .benefit:first-child {
+                margin-top: 3px;
+            }
+
+            .benefit:last-child {
+                margin-bottom: 7px;
+            }
 
             .minor {
                 color: #ffe995;
@@ -204,7 +217,7 @@
             display: flex;
             padding: 2px 5px 5px;
             min-width: 0;
-            align-items: flex-end;
+            align-items: flex-start;
         }
 
         .detractors {
@@ -212,7 +225,7 @@
             display: flex;
             padding: 2px 5px 5px;
             min-width: 0;
-            align-items: flex-end;
+            align-items: flex-start;
         }
 
         .pokemon {

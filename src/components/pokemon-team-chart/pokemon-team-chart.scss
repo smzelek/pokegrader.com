@@ -1,4 +1,4 @@
-.pokemon-team-chart {
+#pokemon-team-chart {
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -188,6 +188,10 @@
     background: #ececec;
 
     &.best {
+        background: #1e771e;
+        color: #fcff66;
+    }
+    &.great{
         background: #1e771e;
         color: #feffd0;
     }

@@ -26,11 +26,11 @@ const Header = ({
                     <div className="wrapper"><div className="line" /></div>
                     <div className="wrapper"><div className="circle" /></div>
                 </div>
-                PokéGrader
+                pokégrader
             </h1>
             <div className="bug-report">
                 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10.png" />
-                <a className="link" href={issuesUrl} onClick={(event) => {
+                <a id="report" className="link" href={issuesUrl} onClick={(event) => {
                     event.preventDefault();
                     window.open(makeIssuesUrl())
                 }}>

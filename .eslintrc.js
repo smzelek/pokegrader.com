@@ -25,6 +25,7 @@ module.exports = {
       files: "*",
       rules: {
         "jest/no-deprecated-functions": "off",
+        "jest/no-identical-title": "off",
         "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": ["error"],
         "quote-props": ["error"]
