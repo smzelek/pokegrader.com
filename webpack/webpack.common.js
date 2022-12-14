@@ -1,7 +1,13 @@
 const path = require('path');
+const { DefinePlugin } = require("webpack");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const commitHash = require('child_process')
+    .execSync('git rev-parse --short HEAD')
+    .toString()
+    .trim();
 
 module.exports = {
     entry:
@@ -19,13 +25,18 @@ module.exports = {
         },
     },
     module: {
-      rules: [
-        { test: /\.tsx?$/, use: ['babel-loader'], exclude: /node_modules/ },
-        { test: /\.css$/, use: ['style-loader', 'css-loader'] },
-        { test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader'] },
-      ],
+        rules: [
+            { test: /\.tsx?$/, use: ['babel-loader'], exclude: /node_modules/ },
+            { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+            { test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader'] },
+        ],
     },
     plugins: [
+        new DefinePlugin({
+            'process.env': {
+                COMMIT_HASH: JSON.stringify(commitHash),
+            },
+        }),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '../src/index.html'),
             filename: 'index.html',

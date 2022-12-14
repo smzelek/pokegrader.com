@@ -130,7 +130,6 @@ export const PokemonTeam = ({
 
     return (
         <div id="pokemon-team">
-            {/* TODO: implement generation selector */}
             <h2 className="bubble-font">choose your team:</h2>
             <div className="pokemon-team-selection">
                 {pokemonTeam.map((pokemon, i) => {

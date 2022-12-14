@@ -20,6 +20,9 @@ const App = (): JSX.Element => {
 
     return (
         <Fragment>
+            <span style="display:none;">
+                {process.env['COMMIT_HASH']}
+            </span>
             <Header pokemonTeam={pokemonTeam} />
             <main>
                 <PokemonTeam

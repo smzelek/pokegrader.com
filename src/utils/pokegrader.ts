@@ -11,11 +11,6 @@ export type Offenses = {
     offense: number;
 }[];
 
-// TODO: rewrite as Transposition of TEAM[].typeMatchups{} to 
-// then calculate vulnerabilities based on def < 1 as an addtl field "isVulnerable" 
-// TYPES{}.pokemon ={name, offense, isVulnerable}[]
-// TYPES{}.nthBest = ...Mathmax...n-1...
-
 // Based strictly on a pokemon's defense, not effective offense ratio.
 const getTeamVulnerabilities = (team: (TypedPokemon | undefined)[]): TeamEvaluation['vulnerable'] => {
     const defaultVuln: TeamEvaluation['vulnerable'] = POKEMON_TYPES.reduce((o, t) => {
