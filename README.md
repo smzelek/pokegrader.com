@@ -2,6 +2,8 @@
 
 **PokéGrader grades your Pokémon teams!**
 
+Link: https://www.stevezelek.com/apps/pokegrader
+
 ### More Info
 
 This project was built with PreactJS and compiles down to just 25kb of JS!
