@@ -1,6 +1,12 @@
 import { TypedPokemon } from "./pokegrader";
 
-export const currentUrl = (pokemonTeam: (TypedPokemon | undefined)[]) => `${window.location.href}?${toQueryParams(pokemonTeam)}`;
+export const currentUrl = (pokemonTeam: (TypedPokemon | undefined)[]) => {
+    const hostUrl = window.location != window.parent.location
+        ? new URL(document.referrer).href
+        : document.location.href
+
+    return `${hostUrl}?${toQueryParams(pokemonTeam)}`;
+};
 
 export type Params = ({
     index: number;
