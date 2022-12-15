@@ -20,7 +20,7 @@ export const _ensurePageLoaded = () => {
 
     test("displays the title in the browser", async () => {
       const title = await page.title();
-      expect(title).toBe("PokéGrader.js");
+      expect(title).toBe("pokégrader");
     });
 
     test("shows credit in the footer", async () => {
