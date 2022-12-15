@@ -27,10 +27,10 @@ const typeGrade = async (root: Locator, type: string) => {
         const blocks = await $.locator('.benefactors .pokemon').elementHandles();
         return await Promise.all(blocks.map(async e => {
             const name = await (await e.$('img'))?.getAttribute('title');
-            const offense = await e.textContent()
+            const power = await e.textContent()
             return {
                 name,
-                offense
+                power
             };
         }));
     })();
@@ -89,12 +89,12 @@ export const helper = (page: Page) => {
         reportCard: () => {
             const $ = page.locator('#pokemon-report-card');
             const title = $.locator('h2');
-            const offense = $.locator('#offense-grade h3');
+            const power = $.locator('#power-grade h3');
             const safety = $.locator('#safety-grade h3');
             return {
                 $,
                 title,
-                offense,
+                power,
                 safety,
                 typeGrades: {
                     normal: () => typeGrade($, 'normal'),

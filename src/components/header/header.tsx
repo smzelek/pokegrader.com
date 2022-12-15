@@ -29,15 +29,17 @@ const Header = ({
                 pokégrader
             </h1>
             <div className="bug-report">
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10.png" />
                 <a id="report" className="link" href={issuesUrl} onClick={(event) => {
                     event.preventDefault();
                     window.open(makeIssuesUrl())
                 }}>
-                    Found a bug?
-                    <p className="bubble-font">
-                        Report it!
-                    </p>
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10.png" />
+                    <div className="report-text">
+                        Found a bug?
+                        <p className="bubble-font">
+                            Report it!
+                        </p>
+                    </div>
                 </a>
             </div>
         </header>

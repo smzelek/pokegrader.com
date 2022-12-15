@@ -48,8 +48,8 @@ export const _ensurePageLoaded = () => {
       await expect(reportCard().$).toBeVisible();
       await expect(reportCard().title).toHaveText("get your grade!");
 
-      await expect(reportCard().offense).toBeVisible();
-      await expect(reportCard().offense).toContainText('%');
+      await expect(reportCard().power).toBeVisible();
+      await expect(reportCard().power).toContainText('%');
       await expect(reportCard().safety).toBeVisible();
       await expect(reportCard().safety).toContainText('%');
     });
@@ -68,7 +68,7 @@ test.describe("tests", () => {
   });
 
   test.beforeAll(async ({ browser }) => {
-    page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
+    page = await browser.newPage();
     await page.route('**/*', route => {
       // Silently abort unmocked API requests
       if (['fetch'].includes(route.request().resourceType())) {
@@ -120,7 +120,7 @@ test.describe("tests", () => {
 
     test("shows empty report card", async () => {
       const { reportCard } = helper(page);
-      await expect(reportCard().offense).toContainText('0%');
+      await expect(reportCard().power).toContainText('0%');
       await expect(reportCard().safety).toContainText('0%');
 
       expect(reportCard().$.locator('.type-grade')).not.toBeVisible();
@@ -160,7 +160,7 @@ test.describe("tests", () => {
 
     test("calculates proper grades", async () => {
       const { reportCard } = helper(page);
-      await expect(reportCard().offense).toContainText('97%');
+      await expect(reportCard().power).toContainText('97%');
       await expect(reportCard().safety).toContainText('94%');
 
       await verifyFullTeamReportCard(reportCard);
@@ -202,7 +202,7 @@ test.describe("tests", () => {
 
     test("calculates proper grades", async () => {
       const { reportCard } = helper(page);
-      await expect(reportCard().offense).toContainText('94%');
+      await expect(reportCard().power).toContainText('94%');
       await expect(reportCard().safety).toContainText('88%');
       await verifyPartialTeamReportCard(reportCard);
     });
@@ -224,7 +224,7 @@ test.describe("tests", () => {
         const { twitter, reportCard } = helper(page);
         const initialUrl = 'http://localhost:8080/?p=0.423.0&p=1.184.0&p=2.229&p=4.82&p=5.838.0'
         await page.goto(initialUrl);
-        await expect(reportCard().offense).toContainText('94%'); // wait for team rendered
+        await expect(reportCard().power).toContainText('94%'); // wait for team rendered
 
         callUrl = undefined;
         await page.evaluate(() => {
@@ -240,7 +240,7 @@ test.describe("tests", () => {
         const { twitter, reportCard } = helper(page);
         const initialUrl = 'http://localhost:8080/?p=0.423.0&p=1.184.0&p=2.229.0&p=3.886&p=4.82&p=5.838.0'
         await page.goto(initialUrl);
-        await expect(reportCard().offense).toContainText('97%'); // wait for team rendered
+        await expect(reportCard().power).toContainText('97%'); // wait for team rendered
 
         callUrl = undefined;
         await page.evaluate(() => {
@@ -258,7 +258,7 @@ test.describe("tests", () => {
         const { report, reportCard } = helper(page);
         const initialUrl = 'http://localhost:8080/?p=0.423.0&p=1.184.0&p=2.229&p=4.82&p=5.838.0'
         await page.goto(initialUrl);
-        await expect(reportCard().offense).toContainText('94%'); // wait for team rendered
+        await expect(reportCard().power).toContainText('94%'); // wait for team rendered
 
         callUrl = undefined;
         await page.evaluate(() => {
@@ -274,7 +274,7 @@ test.describe("tests", () => {
         const { report, reportCard } = helper(page);
         const initialUrl = 'http://localhost:8080/?p=0.423.0&p=1.184.0&p=2.229.0&p=3.886&p=4.82&p=5.838.0'
         await page.goto(initialUrl);
-        await expect(reportCard().offense).toContainText('97%'); // wait for team rendered
+        await expect(reportCard().power).toContainText('97%'); // wait for team rendered
 
         callUrl = undefined;
         await page.evaluate(() => {

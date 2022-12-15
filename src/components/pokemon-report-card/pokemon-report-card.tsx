@@ -1,6 +1,6 @@
 import './pokemon-report-card.scss';
 import { h, JSX } from 'preact';
-import { JSXChildren, scaleDecimal, Offenses, POKEMON_TYPES, TeamEvaluation, Types, TypedPokemon } from 'src/utils';
+import { JSXChildren, scaleDecimal, Power, POKEMON_TYPES, TeamEvaluation, Types, TypedPokemon } from 'src/utils';
 import TypeBlock from '../type-block/type-block';
 import Number from '../number/number';
 import { Bubble } from '../text/bubble';
@@ -13,40 +13,40 @@ const PokemonReportCard = ({
     teamEvaluation: TeamEvaluation;
     pokemonTeam: (TypedPokemon | undefined)[];
 }): JSX.Element => {
-    const offenseGrades = Object.values(teamEvaluation.offenses).map((offenses) => {
-        const bestOffense = offenses[0]?.offense || 0;
-        if (bestOffense > 2) {
+    const powerGrades = Object.values(teamEvaluation.powers).map((power) => {
+        const bestPower = power[0]?.power || 0;
+        if (bestPower > 2) {
             return 1;
         }
-        if (bestOffense === 2) {
+        if (bestPower === 2) {
             return 0.5;
         }
         return 0;
     });
-    const offenseGrade = offenseGrades.reduce((a, b) => a + b, 0) / 18;
+    const powerGrade = powerGrades.reduce((a, b) => a + b, 0) / 18;
 
-    const safetyGrades = Object.entries(teamEvaluation.offenses).map(([type, offenses]: [Types, Offenses]) => {
-        const n = Math.max(teamEvaluation.vulnerable[type].length - 1, 0);
-        const nthBestOffense = offenses[n]?.offense || 0;
-        if (nthBestOffense >= 2) {
+    const safetyGrades = Object.entries(teamEvaluation.powers).map(([type, power]: [Types, Power]) => {
+        const n = Math.max(teamEvaluation.weak[type].length - 1, 0);
+        const nthBestPower = power[n]?.power || 0;
+        if (nthBestPower >= 2) {
             return 1;
         }
-        if (nthBestOffense === 1) {
+        if (nthBestPower === 1) {
             return 0.5;
         }
         return 0;
     });
     const safetyGrade = safetyGrades.reduce((a, b) => a + b, 0) / 18;
 
-    const typeGrades = offenseGrades
-        .map((o, i) => ({ offense: o, safety: safetyGrades[i]!, type: POKEMON_TYPES[i]! }))
+    const typeGrades = powerGrades
+        .map((o, i) => ({ power: o, safety: safetyGrades[i]!, type: POKEMON_TYPES[i]! }))
         .reduce((acc, grade) => {
             acc[grade.type] = {
-                offense: grade.offense,
+                power: grade.power,
                 safety: grade.safety,
             };
             return acc;
-        }, {} as Record<Types, { offense: number, safety: number }>);
+        }, {} as Record<Types, { power: number, safety: number }>);
 
     const anyPokemon = pokemonTeam.some(p => !!p)
 
@@ -58,24 +58,24 @@ const PokemonReportCard = ({
             </div>
             <div className="report-card">
                 <GradeCard
-                    id="offense-grade"
-                    type='offense'
-                    grade={offenseGrade}>
+                    id="power-grade"
+                    type='power'
+                    grade={powerGrade}>
                     <p>
                         Your{' '}
                         <h4 className="bubble-font title">
-                            offense
+                            power
                         </h4>
                         {' '}is your team's ability to overwhelm enemy Pokémon types.
                     </p>
                     <p>
-                        <TypeBlock type='rock' short={false} />VS. <TypeBlock type='fire' short={false} /> (<Bubble>2X</Bubble> <Bold>ATK</Bold>) × (<Bubble>2X</Bubble> <Bold>DEF</Bold>) ＝ <Bubble>4X</Bubble> <Bold>Offense</Bold>!
+                        <TypeBlock type='rock' short={false} />VS. <TypeBlock type='fire' short={false} /> (<Bubble>2X</Bubble> <Bold>ATK</Bold>) × (<Bubble>2X</Bubble> <Bold>DEF</Bold>) ＝ <Bubble>4X</Bubble> <Bold>Power</Bold>!
                     </p>
                     <p>
-                        Score is based on your Best <Bold>Offense</Bold> per type.
+                        Score is based on your Best <Bold>Power</Bold> per type.
                     </p>
                     <p>
-                        Full credit is given for <Bubble>4X</Bubble>+ <Bold>Offense</Bold>, half credit for <Bubble>2X</Bubble> <Bold>Offense</Bold>.
+                        Full credit is given for <Bubble>4X</Bubble>+ <Bold>Power</Bold>, half credit for <Bubble>2X</Bubble> <Bold>Power</Bold>.
                     </p>
                 </GradeCard>
                 <GradeCard
@@ -87,16 +87,16 @@ const PokemonReportCard = ({
                         <h4 className="bubble-font title">
                             safety
                         </h4>
-                        {' '}is the stability of your <Bold>Offense</Bold> against enemy types.
+                        {' '}is the stability of your <Bold>Power</Bold> against enemy types.
                     </p>
                     <p>
-                        <Bold>3</Bold> vulnerable Pokémon means you need <Bold>3</Bold> Pokémon with <Bubble>2X</Bubble>+ <Bold>Offense</Bold>.
+                        <Bold>3</Bold> weak Pokémon means you need <Bold>3</Bold> Pokémon with <Bubble>2X</Bubble>+ <Bold>Power</Bold>.
                     </p>
                     <p>
-                        Score is based on Nth Best <Bold>Offense</Bold> per type (N = vulnerable Pokémon).
+                        Score is based on Nth Best <Bold>Power</Bold> per type (N = weak Pokémon).
                     </p>
                     <p>
-                        Full credit is given for <Bubble>2X</Bubble>+ <Bold>Offense</Bold>, half credit for <Bubble>1X</Bubble> <Bold>Offense</Bold>.
+                        Full credit is given for <Bubble>2X</Bubble>+ <Bold>Power</Bold>, half credit for <Bubble>1X</Bubble> <Bold>Power</Bold>.
                     </p>
                 </GradeCard>
                 {anyPokemon && <div className="improvements">
@@ -162,17 +162,17 @@ const TypeGrade = ({
     teamEvaluation
 }: {
     type: Types;
-    grades: { offense: number, safety: number };
+    grades: { power: number, safety: number };
     teamEvaluation: TeamEvaluation;
 }) => {
-    const benefactors = teamEvaluation.offenses[type].filter((pokemon, i) => {
-        const isVuln = teamEvaluation.vulnerable[type].findIndex(v => v.pokemon.name === pokemon.pokemon.name) !== -1;
-        const isWeak = pokemon.offense < 1;
-        const bestOffense = teamEvaluation.offenses[type][0]?.offense;
-        const isBestOrEqualTo = pokemon.offense === bestOffense;
-        const isGreat = pokemon.offense >= 4;
-        const compareAgainstVulnerable = i <= teamEvaluation.vulnerable[type].length - 1;
-        return !isVuln && !isWeak && (isBestOrEqualTo || isGreat || compareAgainstVulnerable);
+    const benefactors = teamEvaluation.powers[type].filter((pokemon, i) => {
+        const isVuln = teamEvaluation.weak[type].findIndex(v => v.pokemon.name === pokemon.pokemon.name) !== -1;
+        const isWeak = pokemon.power < 1;
+        const bestPower = teamEvaluation.powers[type][0]?.power;
+        const isBestOrEqualTo = pokemon.power === bestPower;
+        const isGreat = pokemon.power >= 4;
+        const compareAgainstWeak = i <= teamEvaluation.weak[type].length - 1;
+        return !isVuln && !isWeak && (isBestOrEqualTo || isGreat || compareAgainstWeak);
     });
 
     const effect: 'major' | 'minor' | '' = (() => {
@@ -195,22 +195,22 @@ const TypeGrade = ({
                     {benefactors.map((v, i) =>
                         <div key={i} className="pokemon">
                             <img src={v.pokemon.sprites.other['official-artwork'].front_default} alt={v.pokemon.name} title={v.pokemon.name} />
-                            <Bubble><Number number={v.offense} /></Bubble>
+                            <Bubble><Number number={v.power} /></Bubble>
                         </div>
                     )}
                 </div>
                 <div className="detractors">
-                    {teamEvaluation.vulnerable[type].map((v, i) =>
+                    {teamEvaluation.weak[type].map((v, i) =>
                         <div key={i} className="pokemon">
                             <img src={v.pokemon.sprites.other['official-artwork'].front_default} alt={v.pokemon.name} title={v.pokemon.name} />
-                            <Bubble><Number number={v.offense} /></Bubble>
+                            <Bubble><Number number={v.power} /></Bubble>
                         </div>
                     )}
                 </div>
             </div>
         </div>
         <div className="effects">
-            {grades.offense < 1 && <Demerit grade={grades.offense} kind='offense' />}
+            {grades.power < 1 && <Demerit grade={grades.power} kind='power' />}
             {grades.safety < 1 && <Demerit grade={grades.safety} kind='safety' />}
         </div>
     </div>

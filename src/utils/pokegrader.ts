@@ -6,17 +6,17 @@ export type TypedPokemon = Pokemon & {
     typeMatchup: TypeMatchups;
     chosenAbility: Ability | undefined;
 }
-export type Offenses = {
+export type Power = {
     pokemon: Pokemon;
-    offense: number;
+    power: number;
 }[];
 
-// Based strictly on a pokemon's defense, not effective offense ratio.
-const getTeamVulnerabilities = (team: (TypedPokemon | undefined)[]): TeamEvaluation['vulnerable'] => {
-    const defaultVuln: TeamEvaluation['vulnerable'] = POKEMON_TYPES.reduce((o, t) => {
+// Based strictly on a pokemon's defense, not effective power ratio.
+const getTeamVulnerability = (team: (TypedPokemon | undefined)[]): TeamEvaluation['weak'] => {
+    const defaultVuln: TeamEvaluation['weak'] = POKEMON_TYPES.reduce((o, t) => {
         o[t] = [];
         return o;
-    }, {} as TeamEvaluation['vulnerable']);
+    }, {} as TeamEvaluation['weak']);
 
     const vulnChart = team.reduce((totalVuln, pokemon) => {
         const defChart = pokemon?.typeMatchup.def;
@@ -28,61 +28,61 @@ const getTeamVulnerabilities = (team: (TypedPokemon | undefined)[]): TeamEvaluat
                 const existing = totalVuln[type];
                 const current = (def < 1) ? [{
                     pokemon,
-                    offense: pokemon.typeMatchup.relativeOffense[type]!
+                    power: pokemon.typeMatchup.power[type]!
                 }] : [];
                 totalVuln[type] = [...existing, ...current];
             });
         return totalVuln;
     }, defaultVuln);
 
-    return Object.entries(vulnChart).reduce((o, [type, vuln]: [Types, Offenses]) => {
-        o[type] = [...vuln].sort((a, b) => a.offense - b.offense);
+    return Object.entries(vulnChart).reduce((o, [type, vuln]: [Types, Power]) => {
+        o[type] = [...vuln].sort((a, b) => a.power - b.power);
         return o;
-    }, {} as TeamEvaluation['vulnerable']);
+    }, {} as TeamEvaluation['weak']);
 }
 
-// Team's effective offense ratios.
-export const getTeamOffenses = (team: (TypedPokemon | undefined)[]): TeamEvaluation['offenses'] => {
-    const defaultOffenses: TeamEvaluation['offenses'] = POKEMON_TYPES.reduce((o, t) => {
+// Team's effective power ratios.
+export const getTeamPower = (team: (TypedPokemon | undefined)[]): TeamEvaluation['powers'] => {
+    const defaultPower: TeamEvaluation['powers'] = POKEMON_TYPES.reduce((o, t) => {
         o[t] = [];
         return o;
-    }, {} as TeamEvaluation['offenses']);
+    }, {} as TeamEvaluation['powers']);
 
-    const offenseChart = team.reduce((totalOffenses, pokemon) => {
-        const offenseChart = pokemon?.typeMatchup.relativeOffense;
-        if (!offenseChart) {
-            return totalOffenses;
+    const powerChart = team.reduce((totalPower, pokemon) => {
+        const _powerChart = pokemon?.typeMatchup.power;
+        if (!_powerChart) {
+            return totalPower;
         }
-        Object.entries(offenseChart)
-            .forEach(([type, offense]: [Types, number]) => {
-                const existing = totalOffenses[type];
-                totalOffenses[type] = [
+        Object.entries(_powerChart)
+            .forEach(([type, power]: [Types, number]) => {
+                const existing = totalPower[type];
+                totalPower[type] = [
                     ...existing,
                     {
                         pokemon,
-                        offense
+                        power: power
                     }
                 ];
             })
-        return totalOffenses;
-    }, defaultOffenses);
+        return totalPower;
+    }, defaultPower);
 
-    return Object.entries(offenseChart)
-        .reduce((o, [type, offense]: [Types, TeamEvaluation['offenses'][Types]]) => {
-            o[type] = [...offense].sort((a, b) => b.offense - a.offense);
+    return Object.entries(powerChart)
+        .reduce((o, [type, power]: [Types, TeamEvaluation['powers'][Types]]) => {
+            o[type] = [...power].sort((a, b) => b.power - a.power);
             return o;
-        }, {} as TeamEvaluation['offenses']);
+        }, {} as TeamEvaluation['powers']);
 }
 
 export interface TeamEvaluation {
-    vulnerable: Record<Types, Offenses>;
-    offenses: Record<Types, Offenses>;
+    weak: Record<Types, Power>;
+    powers: Record<Types, Power>;
 
 }
 export const getTeamEvaluation = (team: (TypedPokemon | undefined)[]): TeamEvaluation => {
     return {
-        vulnerable: getTeamVulnerabilities(team),
-        offenses: getTeamOffenses(team),
+        weak: getTeamVulnerability(team),
+        powers: getTeamPower(team),
     }
 }
 
@@ -384,14 +384,14 @@ const getPokemonDefenseChart = (defTypes: Types[], ability: string | undefined):
 export interface TypeMatchups {
     atk: TypeChart;
     def: TypeChart;
-    relativeOffense: TypeChart;
+    power: TypeChart;
 }
 export const getPokemonTypeMatchups = (types: Types[], ability: string | undefined): TypeMatchups => {
     const atk = getPokemonAttackChart(types, ability);
     const def = getPokemonDefenseChart(types, ability);
 
-    const relativeOffense = POKEMON_TYPES.reduce((offenseChart, type) => {
-        offenseChart[type] = (() => {
+    const power = POKEMON_TYPES.reduce((powerChart, type) => {
+        powerChart[type] = (() => {
             const iAtk = atk[type];
             const iVuln = def[type];
             if (iAtk === 0) { // 0 * Infinity = NaN
@@ -399,13 +399,13 @@ export const getPokemonTypeMatchups = (types: Types[], ability: string | undefin
             }
             return iAtk * iVuln;
         })();
-        return offenseChart;
+        return powerChart;
     }, {} as TypeChart);
 
     return {
         atk,
         def,
-        relativeOffense
+        power
     };
 };
 

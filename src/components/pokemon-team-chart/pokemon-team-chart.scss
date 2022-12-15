@@ -1,3 +1,5 @@
+@import 'src/mixins';
+
 #pokemon-team-chart {
     display: flex;
     justify-content: center;
@@ -11,14 +13,16 @@
     }
 
     .team-card {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
+        max-width: 100%;
         padding: 20px;
         background: #b8ccee;
         border: 1px solid #7287cc;
         border-radius: 5px;
+    }
+
+    .team-chart {
+        display: grid;
+        grid-template-columns: repeat(19, min-content);
         max-width: 100%;
         position: relative;
         overflow-x: auto;
@@ -63,70 +67,61 @@
     }
 
     .type-row {
-        display: grid;
-        grid-template-columns: repeat(19, max-content);
+        display: contents;
 
-        > *:first-child {
+        >*:first-child {
             width: 101px;
+            background: #b8ccee;
         }
 
         .cell {
-            border-top: 1px solid black;
+            // border-top: 1px solid black;
             font-size: 13px;
 
-            &:nth-child(2) {
-                border-top-left-radius: 5px;
-                border-left: 1px solid black;
-            }
+            // &:nth-child(2) {
+            // border-top-left-radius: 5px;
+            // border-left: 1px solid black;
+            // }
 
-            &:last-child {
-                border-right: 1px solid black;
-                border-top-right-radius: 5px;
-                width: 36px;
-            }
+            // &:last-child {
+            // border-right: 1px solid black;
+            // border-top-right-radius: 5px;
+            // width: 36px;
+            // }
         }
     }
 
     .rating-row {
-        display: grid;
-        grid-template-columns: repeat(19, max-content);
-        border-top: 1px solid black;
-        border-left: 1px solid black;
-        border-right: 1px solid black;
+        display: contents;
+        // border-top: 1px solid black;
+        // border-left: 1px solid black;
+        // border-right: 1px solid black;
 
         .header-cell {
             background: #9db4d9;
 
-            &.vulnerable {
+            &.weak {
                 background: #f9d3d8;
             }
         }
 
-        &:nth-child(2) {
-            border-top-left-radius: 5px;
-            overflow: hidden;
-        }
+        // &:nth-child(2) {
+        // border-top-left-radius: 5px;
+        // overflow: hidden;
+        // }
     }
 
     .pokemon-row {
-        display: grid;
-        grid-template-columns: repeat(19, max-content);
-        border-top: 1px solid black;
-        border-left: 1px solid black;
-        border-right: 1px solid black;
+        display: contents;
+        // border-top: 1px solid black;
+        // border-left: 1px solid black;
+        // border-right: 1px solid black;
 
         .header-cell {
             display: flex;
             justify-content: center;
             align-items: center;
 
-            &.expandable {
-                cursor: pointer;
-
-                &:hover {
-                    filter: brightness(0.95);
-                }
-            }
 
             .sprite {
                 position: relative;
@@ -136,48 +131,24 @@
                     height: 30px;
                     display: block;
                 }
-            }
 
-            .expand-caret {
-                position: absolute;
-                left: 100%;
-                top: 0;
-                width: 12px;
-
-                &.expanded {
-                    transform: rotate(180deg);
+                .expand-caret {
+                    display: none;
                 }
             }
+
         }
 
-        &:last-child {
-            border-bottom-left-radius: 5px;
-            border-bottom-right-radius: 5px;
-            border-left: 1px solid black;
-            border-bottom: 1px solid black;
-            overflow: hidden;
-        }
+        // &:last-child {
+        // border-bottom-left-radius: 5px;
+        // border-bottom-right-radius: 5px;
+        // border-left: 1px solid black;
+        // border-bottom: 1px solid black;
+        // overflow: hidden;
+        // }
 
         .details {
-            display: contents;
-            cursor: pointer;
-
-            .cell {
-                font-size: 14px;
-            }
-
-            &:hover {
-                .header-cell {
-                    filter: brightness(0.95);
-                }
-                .cell {
-                    filter: contrast(0.8) saturate(0.8) brightness(0.95);
-                }
-            }
-
-            .cell {
-                filter: contrast(0.8) saturate(0.8);
-            }
+            display: none;
         }
     }
 }
@@ -191,32 +162,179 @@
         background: #1e771e;
         color: #fcff66;
     }
-    &.great{
+
+    &.great {
         background: #1e771e;
         color: #feffd0;
     }
+
     &.good {
         background: #64a158;
         color: #feffd0;
     }
+
     &.decent {
         background: #9fc893;
         color: #feffc2;
     }
+
     &.unimportant {
         background: white;
         color: white;
     }
+
     &.poor {
         background: #f9d3d8;
         color: white;
     }
+
     &.bad {
         background: #ff7878;
         color: white;
     }
+
     &.na {
         background: #555555;
         color: white;
+    }
+}
+
+@include larger-than(mobile-screen) {
+    #pokemon-team-chart {
+        .team-chart {
+
+            >.pokemon-row,
+            >.rating-row,
+            >.type-row {
+                >*:first-child {
+                    position: sticky;
+                    left: 0;
+                    z-index: 1;
+                }
+            }
+
+            >.pokemon-row>.details>.row>*:first-child {
+                position: sticky;
+                left: 0;
+                z-index: 1;
+            }
+        }
+
+        .pokemon-row {
+            .header-cell {
+                &.expandable {
+                    cursor: pointer;
+
+                    &:hover {
+                        filter: brightness(0.95);
+                    }
+                }
+
+                .sprite .expand-caret {
+                    display: block;
+                    position: absolute;
+                    left: 100%;
+                    top: 0;
+                    width: 12px;
+
+                    &.expanded {
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+
+            .details {
+                display: contents;
+                cursor: pointer;
+
+                .cell {
+                    font-size: 14px;
+                }
+
+                &:hover {
+                    .header-cell {
+                        filter: brightness(0.95);
+                    }
+
+                    .cell {
+                        filter: contrast(0.8) saturate(0.8) brightness(0.95);
+                    }
+                }
+
+                .cell {
+                    filter: contrast(0.8) saturate(0.8);
+                }
+            }
+        }
+    }
+}
+
+@include smaller-than(mobile-screen) {
+    #pokemon-team-chart {
+        .team-chart {
+            grid-template-columns: unset;
+            grid-template-rows: repeat(19, min-content);
+            grid-auto-flow: column;
+        }
+
+        .cell {
+            width: 100%;
+        }
+
+        .header-cell {
+            min-width: unset;
+            height: 100%;
+        }
+
+        .type-row {
+            display: contents;
+
+            >*:first-child {
+                width: unset;
+                background: #b8ccee;
+            }
+
+            >* {
+                position: sticky;
+                left: 0;
+                z-index: 1;
+            }
+
+            .cell {
+                width: unset;
+                padding: 0 5px;
+                border-radius: 0;
+            }
+
+            .cell:nth-child(2) {
+                border-radius: 0;
+            }
+
+            .cell:last-child {
+                width: unset;
+                border-radius: 0;
+            }
+        }
+
+        .rating-row {
+            display: contents;
+
+            .header-cell {
+                height: 100%;
+                min-width: unset;
+                width: 100%;
+                padding: 5px;
+            }
+        }
+
+        .pokemon-row {
+            display: contents;
+
+            .header-cell {
+                height: 100%;
+                padding: 5px 5px 5px 0px;
+                min-width: unset;
+            }
+        }
     }
 }

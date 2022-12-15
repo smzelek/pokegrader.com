@@ -1,7 +1,7 @@
 import './pokemon-team-chart.scss';
 import { h, JSX } from 'preact';
 import { useState } from "preact/hooks";
-import { effectivenessRank, relativeStrengthRank, toShortTypes, vulnerabilityCountRank, Offenses, POKEMON_TYPES, TeamEvaluation, TypedPokemon, TypeMatchups, Types } from "src/utils";
+import { effectivenessRank, relativeStrengthRank, toShortTypes, vulnerabilityCountRank, Power, POKEMON_TYPES, TeamEvaluation, TypedPokemon, TypeMatchups, Types } from "src/utils";
 import Number from '../number/number';
 import { Bubble } from '../text/bubble';
 
@@ -18,49 +18,51 @@ const PokemonTeamChart = ({
         <div id="pokemon-team-chart">
             <h2 className="bubble-font">see their matchups...</h2>
             <div className="team-card">
-                <div className="type-row">
-                    <div />
-                    {POKEMON_TYPES.map(t =>
-                        <div key={t} className={`cell type-block ${t}`}>
-                            {toShortTypes(t)}
-                        </div>
-                    )}
-                </div>
-                <div className="rating-row">
-                    <div className="header-cell">
-                        offense
-                    </div>
-                    {Object.values(teamEvaluation.offenses).map((offenses, i) =>
-                        <div key={i} className={`cell rating ${anyPokemon && relativeStrengthRank(offenses[0]?.offense)}`}>
-                            {anyPokemon && <Bubble><Number number={offenses[0]?.offense} /></Bubble>}
-                        </div>
-                    )}
-                </div>
-                <div className="rating-row">
-                    <div className="header-cell">
-                        safety
-                    </div>
-                    {Object.entries(teamEvaluation.offenses).map(([type, offenses]: [Types, Offenses], i) => {
-                        const n = Math.max(teamEvaluation.vulnerable[type].length - 1, 0);
-                        const nthBestOffense = offenses[n]?.offense;
-                        return (
-                            <div key={i} className={`cell rating ${relativeStrengthRank(nthBestOffense)}`}>
-                                <Bubble><Number number={nthBestOffense} /></Bubble>
+                <div className="team-chart">
+                    <div className="type-row">
+                        <div />
+                        {POKEMON_TYPES.map(t =>
+                            <div key={t} className={`cell type-block ${t}`}>
+                                {toShortTypes(t)}
                             </div>
-                        );
-                    })}
-                </div>
-                <div className="rating-row">
-                    <div className="header-cell vulnerable">
-                        vulnerable
+                        )}
                     </div>
-                    {Object.values(teamEvaluation.vulnerable).map((t, i) =>
-                        <div key={i} className={`cell rating ${anyPokemon && vulnerabilityCountRank(t.length)}`}>
-                            {anyPokemon && <Bubble><Number number={t.length} /></Bubble>}
+                    <div className="rating-row">
+                        <div className="header-cell">
+                            power
                         </div>
-                    )}
+                        {Object.values(teamEvaluation.powers).map((power, i) =>
+                            <div key={i} className={`cell rating ${anyPokemon && relativeStrengthRank(power[0]?.power)}`}>
+                                {anyPokemon && <Bubble><Number number={power[0]?.power} /></Bubble>}
+                            </div>
+                        )}
+                    </div>
+                    <div className="rating-row">
+                        <div className="header-cell">
+                            safety
+                        </div>
+                        {Object.entries(teamEvaluation.powers).map(([type, power]: [Types, Power], i) => {
+                            const n = Math.max(teamEvaluation.weak[type].length - 1, 0);
+                            const nthBestPower = power[n]?.power;
+                            return (
+                                <div key={i} className={`cell rating ${relativeStrengthRank(nthBestPower)}`}>
+                                    <Bubble><Number number={nthBestPower} /></Bubble>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    <div className="rating-row">
+                        <div className="header-cell weak">
+                            weak
+                        </div>
+                        {Object.values(teamEvaluation.weak).map((t, i) =>
+                            <div key={i} className={`cell rating ${anyPokemon && vulnerabilityCountRank(t.length)}`}>
+                                {anyPokemon && <Bubble><Number number={t.length} /></Bubble>}
+                            </div>
+                        )}
+                    </div>
+                    {pokemonTeam.map((pokemon, i) => <PokemonRow key={i} pokemon={pokemon} />)}
                 </div>
-                {pokemonTeam.map((pokemon, i) => <PokemonRow key={i} pokemon={pokemon} />)}
             </div>
         </div>
     )
@@ -74,7 +76,7 @@ const PokemonRow = ({
     const typeMatchup = pokemon?.typeMatchup;
 
     const toTypeList = (s: keyof TypeMatchups) => POKEMON_TYPES.map(t => typeMatchup && typeMatchup[s][t]);
-    const offenses = toTypeList('relativeOffense');
+    const powers = toTypeList('power');
     const atk = toTypeList('atk');
     const defs = toTypeList('def');
 
@@ -90,7 +92,7 @@ const PokemonRow = ({
                     {typeMatchup && (<img className={`expand-caret ${showDetails && 'expanded'}`} src="/assets/icons/caret_down.svg" />)}
                 </div>
             </div>
-            {offenses.map((t, i) =>
+            {powers.map((t, i) =>
                 <div key={i} className={`cell rating ${relativeStrengthRank(t)}`}>
                     <Bubble><Number number={t} /></Bubble>
                 </div>

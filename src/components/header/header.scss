@@ -1,3 +1,5 @@
+@import 'src/mixins';
+
 header {
     display: flex;
     padding: 10px;
@@ -64,24 +66,35 @@ header {
 
     .bug-report {
         position: absolute;
-        right: 5px;
+        right: 0px;
         display: flex;
         height: 100%;
-        padding: 10px;
+        padding: 5px;
+        cursor: pointer;
 
         .link {
             display: flex;
-            flex-direction: column;
-            padding-left: 10px;
             font-family: "Quicksand";
             font-size: 14px;
             text-decoration: none;
             color: black;
+            align-items: center;
+        }
+
+        .report-text {
+            display: flex;
+            flex-direction: column;
         }
 
         img {
             height: 100%;
-            padding: 4px 0;
+            padding: 4px;
         }
+    }
+}
+
+@include smaller-than(mobile-screen) {
+    header .bug-report .report-text {
+        display: none;
     }
 }

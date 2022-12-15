@@ -1,3 +1,5 @@
+@import 'src/mixins';
+
 #pokemon-report-card {
     display: flex;
     justify-content: center;
@@ -11,9 +13,9 @@
         justify-content: space-between;
         width: 100%;
         align-items: flex-end;
-        margin-bottom: 10px;
         position: relative;
-        
+        margin-bottom: 10px;
+
         h2 {
             white-space: nowrap;
         }
@@ -136,32 +138,21 @@
         display: grid;
         width: 100%;
         grid-template-columns: repeat(6, 1fr);
-        grid-column-gap: 10px;
+        grid-gap: 10px;
     }
 
     .type-grade {
         display: flex;
         flex-direction: column;
 
-        &:nth-child(n+13) {
-            .effects {
-                min-height: unset;
-            }
-        }
-
         .effects {
             display: flex;
             flex-direction: column;
             align-items: center;
             font-size: 14px;
-            min-height: 15px;
 
             .benefit:first-child {
                 margin-top: 3px;
-            }
-
-            .benefit:last-child {
-                margin-bottom: 7px;
             }
 
             .minor {
@@ -233,6 +224,48 @@
             flex-direction: column;
             min-width: 0;
             align-items: center;
+        }
+    }
+}
+
+
+@include smaller-than(mobile-screen) {
+    #pokemon-report-card {
+
+        .report-card {
+            display: grid;
+            grid-template-areas:
+                "power safety"
+                "improvements improvements";
+            grid-gap: 10px;
+        }
+
+        .improvements {
+            grid-area: improvements;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        #power-grade {
+            grid-area: power;
+        }
+
+        #safety-grade {
+            grid-area: safety;
+        }
+
+        #power-grade,
+        #safety-grade {
+            align-items: center;
+            height: 100%;
+            padding: 10px;
+            flex-direction: column;
+            margin-bottom: 0;
+
+            .grade {
+                margin-right: 0;
+                height: unset;
+                flex-direction: column-reverse;
+            }
         }
     }
 }

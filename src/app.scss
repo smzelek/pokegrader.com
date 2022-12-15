@@ -1,3 +1,5 @@
+@import 'src/mixins';
+
 * {
     margin: 0;
     box-sizing: border-box;
@@ -9,8 +11,6 @@ html {
 }
 
 body {
-    min-width: 780px;
-    min-height: 550px;
     height: 100vh;
     padding: 0;
     display: flex;
@@ -34,4 +34,27 @@ main {
     font-family: monospace;
     color: white;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+
+@include smaller-than(mobile-screen) {
+    body {
+        height: unset;
+    }
+    
+    main {
+        padding: 0px 20px 100px;
+    }
+
+    #pokemon-team {
+        width: 100%;
+    }
+
+    #pokemon-team-chart {
+        width: 100%;
+
+        .team-card {
+            width: 100%;
+        }
+    }
 }
