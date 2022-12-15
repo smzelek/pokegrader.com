@@ -1,39 +1,5 @@
 import { Locator, Page } from '@playwright/test';
 
-// function getSquare(page, b, i) {
-//   return page.locator(".square").nth(b * 9 + i);
-// }
-
-// function getBoard(page, b) {
-//   return page.locator(".board").nth(b);
-// }
-
-// const xWins = async (page) => {
-//   await getSquare(page, 0, 1).click();
-//   await getSquare(page, 1, 0).click();
-//   await getSquare(page, 0, 4).click();
-//   await getSquare(page, 4, 0).click();
-//   await getSquare(page, 0, 7).click();
-//   await getSquare(page, 7, 8).click();
-//   await getSquare(page, 8, 0).click();
-//   await getSquare(page, 0, 8).click();
-//   await getSquare(page, 8, 4).click();
-//   await getSquare(page, 4, 8).click();
-//   await getSquare(page, 8, 8).click();
-//   await getSquare(page, 8, 7).click();
-//   await getSquare(page, 7, 7).click();
-//   await getSquare(page, 7, 4).click();
-//   await getSquare(page, 4, 3).click();
-//   await getSquare(page, 3, 4).click();
-//   await getSquare(page, 4, 5).click();
-//   await getSquare(page, 5, 4).click();
-//   await getSquare(page, 4, 4).click();
-// }
-
-// const oWins = async (page) => {
-//   await getSquare(page, 0, 0).click();
-//   await xWins(page);
-// }
 const pokemon = (root: Locator, i: number) => {
     const $ = root.locator(`#pokemon${i}`);
     const name = $.locator('.pokemon-name');
@@ -154,4 +120,3 @@ export const helper = (page: Page) => {
         }
     }
 };
-
