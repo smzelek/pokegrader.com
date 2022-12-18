@@ -41,6 +41,12 @@ npm run e2e
 
 Preload the app with a full team by providing the following url:
 > http://localhost:8080/?p=0.423.0&p=1.184.0&p=2.229.0&p=3.886&p=4.82&p=5.838
+
+> https://www.stevezelek.com/apps/pokegrader/?p=0.423.0&p=1.184.0&p=2.229.0&p=3.886&p=4.82&p=5.838
+
+
 My favorite team:
 > http://localhost:8080/?p=0.40&p=1.462&p=2.423.0&p=3.430&p=4.479.0&p=5.485.0 
+
+> https://www.stevezelek.com/apps/pokegrader/?p=0.40&p=1.462&p=2.423.0&p=3.430&p=4.479.0&p=5.485.0 
 
