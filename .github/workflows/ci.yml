@@ -70,7 +70,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
       - name: Deploy Build
         run: |
-          cd public/
+          cd www/
           zip -r build.zip .
           aws s3 cp build.zip s3://${{ secrets.AWS_S3_BUCKET }}/${{ github.sha }}.zip --content-type "application/zip; charset=utf-8"
           URL=$(aws s3 presign s3://${{ secrets.AWS_S3_BUCKET }}/${{ github.sha }}.zip)

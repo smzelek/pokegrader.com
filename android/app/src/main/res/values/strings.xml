@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">pokegrader.js</string>
+    <string name="title_activity_main">pokegrader.js</string>
+    <string name="package_name">com.stevezelek.pokegrader</string>
+    <string name="custom_url_scheme">com.stevezelek.pokegrader</string>
+</resources>

@@ -19,7 +19,7 @@ module.exports = {
   ],
   rules: {
   },
-  ignorePatterns: ['public/*'],
+  ignorePatterns: ['www/*'],
   overrides: [
     {
       files: "*",
