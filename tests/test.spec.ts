@@ -267,7 +267,7 @@ test.describe("tests", () => {
         await report().click();
 
         const encodedUrl = encodeURIComponent(initialUrl);
-        expect(callUrl).toBe(`https://docs.google.com/forms/d/e/1FAIpQLScrbjDLotIHBnqD06RYZfdpLA7U_d1H4TJ0g4L5qro8g8GaEw/viewform?usp=pp_url&entry.368646608=${encodedUrl}`);
+        expect(callUrl).toBe(`https://docs.google.com/forms/d/e/1FAIpQLSez_zBMwrucfsk7lSExnPWrAZgAEgFeDxlaF21DwmeAxOF0bQ/viewform?usp=pp_url&entry.179411854=${encodedUrl}`);
       });
 
       test("full team url", async () => {
@@ -283,7 +283,7 @@ test.describe("tests", () => {
         await report().click();
 
         const encodedUrl = encodeURIComponent(initialUrl);
-        expect(callUrl).toBe(`https://docs.google.com/forms/d/e/1FAIpQLScrbjDLotIHBnqD06RYZfdpLA7U_d1H4TJ0g4L5qro8g8GaEw/viewform?usp=pp_url&entry.368646608=${encodedUrl}`);
+        expect(callUrl).toBe(`https://docs.google.com/forms/d/e/1FAIpQLSez_zBMwrucfsk7lSExnPWrAZgAEgFeDxlaF21DwmeAxOF0bQ/viewform?usp=pp_url&entry.179411854=${encodedUrl}`);
       });
     });
   });
