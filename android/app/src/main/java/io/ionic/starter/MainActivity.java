@@ -1,4 +1,4 @@
-package com.stevezelek.pokegrader;
+package io.ionic.starter;
 
 import com.getcapacitor.BridgeActivity;
 
