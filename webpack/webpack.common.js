@@ -1,6 +1,5 @@
 const path = require('path');
 const { DefinePlugin } = require("webpack");
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -43,7 +42,6 @@ module.exports = {
             inject: 'body',
             chunks: ['app'],
         }),
-        new CleanWebpackPlugin(),
         new CopyWebpackPlugin({
             patterns: [
                 { from: path.resolve(__dirname, '../assets'), to: 'assets' },
