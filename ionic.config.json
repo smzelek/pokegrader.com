@@ -1,7 +1,0 @@
-{
-  "name": "pokegrader.js",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "custom"
-}

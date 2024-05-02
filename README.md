@@ -1,4 +1,4 @@
-# pokégrader
+# pokegrader.com
 
 **PokéGrader grades your Pokémon teams!**
 
